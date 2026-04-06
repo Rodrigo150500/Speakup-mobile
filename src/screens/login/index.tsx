@@ -2,39 +2,34 @@ import { Text, View, Image, TextInput, Button} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {styles} from './styles'
 import { useEffect, useState } from "react";
+import { speakup_api } from "../../services/speakup_api"
 
 export function Login(){
 
-    const [email, setEmail] = useState("Rodrigo.150523@gmail.com")
-    const [password, setPassword] = useState("123456")
+    const [email, setEmail] = useState("Rodrigo.takara15052@gmail.com")
+    const [password, setPassword] = useState("")
 
     const submitLogin = async () => {
-        
-        console.log("Requisitado6")
-        const response = await fetch("http://192.168.0.2:3000/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
-        })
+      
+        const response = await speakup_api.login(email, password)
+        console.log(response.status)
 
-        console.log(await response.json())
-
+        if(response.status == 200){
+            alert("Logado")
+        }else{
+            alert("Credenciais inválidas")
+        }
     }
 
     useEffect(()=>{
-        submitLogin()
+
     }, [])
 
 
     return(
         <SafeAreaView style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%"}}>
             
-            <View style={{padding: 25, backgroundColor:"green"}}>
+            <View style={{padding: 25, backgroundColor:"#00ff62"}}>
 
                 <Image source={require("../../../assets/icone.png")} style={styles.image} />
 
