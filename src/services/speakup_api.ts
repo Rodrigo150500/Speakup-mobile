@@ -1,5 +1,5 @@
 import { ISpeakupAPI } from "./interface/speakup_interface"
-import { CreateRoomInput, RegisterInput } from "./types/api_types"
+import { CreateRoomInput, RegisterInput, UserResponse } from "./types/api_types"
 
 class SpeakupAPI implements ISpeakupAPI{
 
@@ -9,7 +9,7 @@ class SpeakupAPI implements ISpeakupAPI{
         this.api_url = process.env.EXPO_PUBLIC_SPEAKUP_API
     }
 
-    async login(email: string, password: string){
+    async login(email: string, password: string):Promise<UserResponse>{
 
             const response = await fetch(`${this.api_url}/auth/login`,{
                 method:"POST",
@@ -22,8 +22,7 @@ class SpeakupAPI implements ISpeakupAPI{
                 })
             })
 
-            return response 
-        
+            return await response.json()
 
     }
 

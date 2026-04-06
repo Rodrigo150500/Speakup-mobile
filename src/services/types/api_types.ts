@@ -12,3 +12,27 @@ export type CreateRoomInput = {
     room_code: string
 }
 
+
+export type UserResponse = {
+  operation: string,
+  count: number,
+  attributes: {
+    id: string,
+    name: string,
+    email: string,
+    created_at: Date,
+    role: "TEACHER"| "STUDENT",
+    teacher?:{
+        id: string,
+        user_id: string
+    }
+    student?: {
+      id: string,
+      user_id: string,
+      grade: string,
+      section: string,
+      number: number
+    }
+  }
+
+}
