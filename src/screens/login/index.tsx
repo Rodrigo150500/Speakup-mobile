@@ -3,19 +3,24 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {styles} from './styles'
 import { useEffect, useState } from "react";
 import { speakup_api } from "../../services/speakup_api"
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../types/screen_types";
+
 
 export function Login(){
 
-    const [email, setEmail] = useState("Rodrigo.takara15052@gmail.com")
+    const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+    
     const submitLogin = async () => {
       
         const response = await speakup_api.login(email, password)
-        console.log(response.status)
 
         if(response.status == 200){
-            alert("Logado")
+            navigation.navigate('register')
         }else{
             alert("Credenciais inválidas")
         }
