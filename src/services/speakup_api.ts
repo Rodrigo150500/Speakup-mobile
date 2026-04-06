@@ -11,18 +11,19 @@ class SpeakupAPI implements ISpeakupAPI{
 
     async login(email: string, password: string){
 
-        const response = await fetch(`${this.api_url}/auth/login`,{
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
+            const response = await fetch(`${this.api_url}/auth/login`,{
+                method:"POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
             })
-        })
 
-        return response
+            return response 
+        
 
     }
 
@@ -74,6 +75,8 @@ class SpeakupAPI implements ISpeakupAPI{
 
     } 
 }
+
+export const speakup_api = new SpeakupAPI()
 
 
 
