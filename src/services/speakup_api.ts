@@ -22,7 +22,10 @@ class SpeakupAPI implements ISpeakupAPI{
                 })
             })
 
-            return await response.json()
+            return {
+                ...await response.json(),
+                status_code: response.status
+            }
 
     }
 
