@@ -33,6 +33,6 @@ export type UserResponse = {
       section: string,
       number: number
     }
-  }
+  },status_code: number
 
 }
