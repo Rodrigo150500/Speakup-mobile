@@ -19,7 +19,7 @@ export function Login(){
       
         const response = await speakup_api.login(email, password)
 
-        if(response.status == 200){
+        if(response.status_code == 200){
             navigation.navigate('register')
         }else{
             alert("Credenciais inválidas")
