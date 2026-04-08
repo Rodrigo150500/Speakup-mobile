@@ -13,7 +13,7 @@ export function AppRoutes(){
 
     return(
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="chat" screenOptions={{headerShown: false}} >
+            <Stack.Navigator initialRouteName="login" screenOptions={{headerShown: false}} >
                 <Stack.Screen name="login" component={Login} />
                 <Stack.Screen name="register" component={Register}/>
                 <Stack.Screen name="home" component={Home} initialParams={{role: "TEACHER"}}/>

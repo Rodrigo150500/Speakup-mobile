@@ -1,12 +1,31 @@
-import { StyleSheet } from "react-native";
+import styled from "styled-components/native";
 
-export const styles = StyleSheet.create({
-    container:{
-        backgroundColor: "red"
-    },
+export const ContainerLogo = styled.View`
 
-    image:{
-        width: 150,
-        height: 150
-    }
-})
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+`
+
+export const Logo = styled.Image`
+
+    width: 150px;
+    height: 150px;
+
+`
+
+export const ContainerTitle = styled.View`
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+`
+
+export const AppName = styled.Text`
+
+    font-size: 36px;
+    color: #092136;
+
+`
