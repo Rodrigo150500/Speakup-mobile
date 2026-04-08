@@ -105,4 +105,11 @@ export const BtnEntry = styled.TouchableOpacity`
     background-color: #60B5FF;
     padding: 15px;
     width: 100%;
+    border-radius: 10px;
+`
+
+export const BtnText = styled.Text`
+
+    font-size: 24px;
+    color: #fff;
 `

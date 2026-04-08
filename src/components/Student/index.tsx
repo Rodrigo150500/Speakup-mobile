@@ -1,11 +1,39 @@
 import { Text, View, Image, Button } from "react-native"
 
-import { ContainerStudent, ContainerUser, Menu, FavoriteSubject, MenuStatus, Presence, Status, TopStudents, BtnEntry, ContainerRoom, InputCodeRoom, TitleRoom } from "./styles"
+import { ContainerStudent, ContainerUser, Menu, FavoriteSubject, MenuStatus, Presence, Status, TopStudents, BtnEntry, ContainerRoom, InputCodeRoom, TitleRoom, BtnText } from "./styles"
+import { useState } from "react"
+import { speakup_api } from "../../services/speakup_api"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../screens/types/screen_types";
+import { useNavigation } from "@react-navigation/native";
 
 export function Stundet(){
 
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+    
+
     const name = "John Doe"
     const user_data = "4° ano A - n° 20"
+
+    const [code, setCode] = useState("")
+
+    const handleEntryRoom = async () => {
+        try{
+
+            console.log("entrando")
+
+            const response = await speakup_api.join_room(code)
+
+            if(response.status_code == 200){
+                alert("acesso liberado")
+            }else{
+                alert("Verifique novamente o código da sala")
+            }
+        }catch(error){
+            console.log(error)
+        }
+
+    }
 
 
     return (
@@ -42,9 +70,12 @@ export function Stundet(){
             <ContainerRoom>
 
                         <TitleRoom>Código da Sala</TitleRoom>
-                        <InputCodeRoom placeholder="ex: 123"/>
-                        <BtnEntry>
-                            <Text style={{color: "#fff"}}>Entrar</Text>
+                        <InputCodeRoom
+                            placeholder="ex: 123"
+                            onChangeText={setCode}
+                            value={code}/>
+                        <BtnEntry onPress={() => handleEntryRoom()}>
+                            <BtnText>Entrar</BtnText>
                         </BtnEntry>
                         
             </ContainerRoom>
