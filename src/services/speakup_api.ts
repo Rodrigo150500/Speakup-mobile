@@ -1,5 +1,5 @@
 import { ISpeakupAPI } from "./interface/speakup_interface"
-import { CreateRoomInput, RegisterInput, UserResponse } from "./types/api_types"
+import { CreateRoomInput, RegisterInput, RoomOutput, UserResponse } from "./types/api_types"
 
 class SpeakupAPI implements ISpeakupAPI{
 
@@ -29,7 +29,7 @@ class SpeakupAPI implements ISpeakupAPI{
 
     }
 
-    async register(data: RegisterInput){
+    async register(data: RegisterInput): Promise<UserResponse>{
 
         const response = await fetch(`${this.api_url}/auth/register`,{
             method: "POST",
@@ -42,11 +42,14 @@ class SpeakupAPI implements ISpeakupAPI{
 
         })
 
-        return response
+        return {
+            ...await response.json(),
+            status_code: response.status
+        }
 
     }
 
-    async create_room(data: CreateRoomInput){
+    async create_room(data: CreateRoomInput):Promise<RoomOutput>{
 
         const response = await fetch(`${this.api_url}/room/create`, {
             method: "POST",
@@ -58,10 +61,13 @@ class SpeakupAPI implements ISpeakupAPI{
             })
         })
         
-        return response
+        return {
+            ...await response.json(), 
+            status_code: response.status
+        }
     }
 
-    async join_room(code_room: string){
+    async join_room(room_code: string):Promise<RoomOutput>{
 
         const response = await fetch(`${this.api_url}/room/join`,{
             method: "POST",
@@ -69,12 +75,14 @@ class SpeakupAPI implements ISpeakupAPI{
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                code_room: code_room
+                room_code: room_code
             })
         })
 
-        return response
-
+        return {
+            ...await response.json(), 
+            status_code: response.status
+        }
     } 
 }
 

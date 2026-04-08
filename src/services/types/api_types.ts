@@ -36,3 +36,16 @@ export type UserResponse = {
   },status_code: number
 
 }
+
+export type RoomOutput =  {
+    operation: string,
+    count: number,
+    attributes: {
+        id: string,
+        room_code: string,
+        created_at: Date,
+        name: string
+    },
+    status_code: number
+}
+
