@@ -6,6 +6,7 @@ import { speakup_api } from "../../services/speakup_api"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../screens/types/screen_types";
 import { useNavigation } from "@react-navigation/native";
+import { io } from "socket.io-client";
 
 export function Stundet(){
 
@@ -16,7 +17,7 @@ export function Stundet(){
     const user_data = "4° ano A - n° 20"
 
     const [code, setCode] = useState("")
-
+    const room_code = "1505"
     const handleEntryRoom = async () => {
         try{
 
@@ -25,7 +26,10 @@ export function Stundet(){
             const response = await speakup_api.join_room(code)
 
             if(response.status_code == 200){
+                const socket = io()
                 alert("acesso liberado")
+                socket.emit("join_room", {room_code})
+
             }else{
                 alert("Verifique novamente o código da sala")
             }
