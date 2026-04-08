@@ -1,23 +1,30 @@
-import { Text, View, Image, TextInput, Button} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {AppName, ContainerLogo, ContainerTitle, Logo} from './styles'
-import { useEffect, useState } from "react";
+import {AppName, ContainerCreateAccount, ContainerForgotPassword, ContainerForms, ContainerLogo, ContainerTitle, CreateAccountButton, CreateAccountText, ForgotPasswordButton, ForgotPasswordText, LoginButton, LoginText, Logo, TitleCreateAccount} from './styles'
 import { speakup_api } from "../../services/speakup_api"
+import { InputTxt } from "../../components/InputTxt";
+import { useForm, SubmitHandler, Controller} from "react-hook-form"
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/screen_types";
-import { InputTxt } from "../../components/InputTxt";
 
+type Inputs = {
+    email: string,
+    password: string
+}
 
 export function Login(){
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()  
 
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
-    
-    const submitLogin = async () => {
-      
+    const {control, handleSubmit, formState: {errors}} = useForm<Inputs>({
+        defaultValues:{
+            email: "",
+            password: ""
+        }
+    })
+
+    const onSubmit: SubmitHandler<Inputs> = async ({email, password}) => {
+        
         const response = await speakup_api.login(email, password)
 
         if(response.status_code == 200){
@@ -25,6 +32,10 @@ export function Login(){
         }else{
             alert("Credenciais inválidas")
         }
+    }
+
+    const handleCreateAccount = () => {
+        navigation.navigate("register")
     }
 
 
@@ -39,26 +50,58 @@ export function Login(){
                 <AppName>SpeakUP</AppName>
             </ContainerTitle>
 
-            <View style={{display: "flex", justifyContent: "space-between", backgroundColor: "#6262e9", gap: 25, margin: 10, width: "80%"}}>
+            <ContainerForms>
                 
-                <InputTxt 
-                    placeholder="Email" 
-                    keyboardType="email-address" 
-                    onChangeText={(txt) => setEmail(txt)}
-                    value={email}
-                    />
-                
-                <InputTxt
-                    placeholder="Senha"
-                    secureTextEntry
-                    onChangeText={(txt) => setPassword(txt)}
-                    value={password}
-                />               
-      
-                
-                <Button title="Logar" onPress={() => submitLogin()}/>
-            </View>
+                <Controller
+                    name="email"
+                    control={control}
+                    render={({field: {onChange, onBlur, value}}) => (
+                        <InputTxt
+                            placeholder="Email"
+                            keyboardType="email-address"
+                            onChangeText={onChange}
+                            value={value}
+                            onBlur={onBlur}
+                        />
+                    )}
+                />
 
+                <Controller
+                    name="password"
+                    control={control}
+                    render={({field: {onChange, onBlur, value}})=> (
+                        <InputTxt
+                            placeholder="Senha"
+                            secureTextEntry
+                            onChangeText={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                        />
+                    )}
+
+                
+                />                        
+      
+                <LoginButton onPress={handleSubmit(onSubmit)}>
+                    <LoginText>Entrar</LoginText>
+                </LoginButton>
+
+            </ContainerForms>
+
+            <ContainerForgotPassword>
+                <ForgotPasswordButton>
+                    <ForgotPasswordText>Esqueceu sua senha?</ForgotPasswordText>
+                </ForgotPasswordButton>
+            </ContainerForgotPassword>
+
+            <ContainerCreateAccount>
+                <TitleCreateAccount>Não possui uma conta?</TitleCreateAccount>
+                
+                <CreateAccountButton onPress={() => handleCreateAccount()}>
+                    <CreateAccountText>Criar uma nova conta</CreateAccountText>
+                </CreateAccountButton>
+
+            </ContainerCreateAccount>
 
         </SafeAreaView>
     )

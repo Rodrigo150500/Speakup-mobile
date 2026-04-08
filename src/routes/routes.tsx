@@ -1,5 +1,5 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { Login } from "../screens/login";
 import { Register } from "../screens/register";
@@ -9,8 +9,10 @@ import { Chat } from "../screens/chat";
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
-export function AppRoutes(){
 
+
+export function AppRoutes(){
+    
     return(
         <NavigationContainer>
             <Stack.Navigator initialRouteName="login" screenOptions={{headerShown: false}} >
@@ -24,3 +26,4 @@ export function AppRoutes(){
     )
 
 }
+
