@@ -18,11 +18,59 @@ export const ContainerUser = styled.View`
     border-radius: 24px;
 
 `
+
+export const UserPhoto = styled.Image`
+    margin-top: 20px;
+    width: 150px;
+    height: 150px;
+`
+
+export const UserInfo = styled.View`
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+
+`
+
+export const Username = styled.Text`
+
+    font-size: 18px;
+    color: #fff;
+
+`
+export const StudentData = styled.Text`
+    
+    font-size: 18px;
+    color: #fff;
+
+`
+
 export const Menu = styled.View`
 
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    justify-content: space-around;
+    width: 100%;
+    padding: 20px;
+
+`
+
+export const MenuItemButton = styled.TouchableOpacity`
+
+    background-color: #60B5FF;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    border-radius: 8px;
+
+`
+export const MenuItemText = styled.Text`
+
+    font-size: 18px;
+    color: #ffffff;
 `
 
 
@@ -45,11 +93,6 @@ export const TitleRoom = styled.Text`
     color: #fff;
 `
 
-export const Label = styled.Text`
-    font-size: 18px;
-    color: #a16a47;
-`
-
 export const InputRoom = styled.TextInput`
 
     font-size: 18px;
@@ -61,7 +104,6 @@ export const InputRoom = styled.TextInput`
 
 `
 
-
 export const BtnEntry = styled.TouchableOpacity`
     display: flex;
     align-items: center;
@@ -70,6 +112,7 @@ export const BtnEntry = styled.TouchableOpacity`
     width: 100%;
     border-radius: 10px;
 `
+
 
 export const BtnText = styled.Text`
 
