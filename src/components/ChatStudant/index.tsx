@@ -1,58 +1,105 @@
-import { Text,FlatList } from "react-native";
-import { BtnSend, CardQuestion, Container, InputQuestion } from "./styles";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { FlatList } from "react-native";
+
+import { Author, ButtonSend, ButtonSendtText, CardQuestions, ContainerQuestion, ContainerQuestionInput, InputQuestion, MessageDate, Question, Viewport } from "./styles";
+
+import { UserInfo } from "../Student/styles";
+
 import { io } from "socket.io-client";
 
-type Props = {
-    room_code: string
+import {format} from "date-fns"
+
+import {socket} from "../../main/socket/socket"
+
+type ChatStudentProps = {
+    roomCode: string,
+    name: string
 }
 
-export function ChatStudant({room_code}: Props){
+type MessageProps = {
+    question: string,
+    date: string
+}
 
-    // const messages:string = []
+export function ChatStudant({roomCode, name}: ChatStudentProps){
 
-    const [message, setMessage] = useState("")
+    const [question, setQuestion] = useState("")
+    const [messages, setMessages] = useState<MessageProps[]>([])
 
-    const socket = io(process.env.EXPO_PUBLIC_SPEAKUP_API)
-    const sala = {room_code: "1505"}
-    const roomCode = "1505"
     const handleSendMessage = () => {
-        console.log("ola")
-        socket.on("connect",()=>{
-            console.log(socket.id)
-        })
 
-        socket.emit("join_room", {roomCode})
-        
+        if(!question.trim()){ return }
+
+        const date = format(new Date(), "HH:mm")
+
+        setMessages(prev => [...prev,
+            {
+                question,
+                date
+            }])                       
+       
         socket.emit("send_message", {
                 roomCode,
-                message
+                message: question
             })
+
+        setQuestion("")
     }
+
+    useEffect(() => {
+
+        socket.on("connect", () => {
+
+            socket.emit("join_room", { roomCode })
+        })
+
+        return () => {
+            socket.disconnect()
+        }
+    }, [])
 
 
     return (
-        <Container>
+        <Viewport>
 
-            {/* <FlatList 
-                data={messages}                
-                renderItem={(item) => (
-                    <CardQuestion>item</CardQuestion>
-                )}
-            /> */}
+            <ContainerQuestion>
 
-            <InputQuestion 
-                placeholder="Faça sua pergunta..."
-                editable
-                multiline
-                numberOfLines={4}
-                maxLength={40}
-                textAlignVertical="top"
-                onChangeText={setMessage}
-                value={message}/>
+                <FlatList 
+                    data={messages}                
+                    renderItem={({item}) => (
 
-            <BtnSend title="Enviar" onPress={() => handleSendMessage()}/>
-        </Container>
+                        <CardQuestions>
+                            <Question>{item.question}</Question>
+                            <UserInfo>
+                                <Author>{name}</Author>
+                                <MessageDate>{item.date}</MessageDate>
+                            </UserInfo>
+                        </CardQuestions>
+                    )}
+                    style={{width: "100%", display: "flex"}}
+                    />
+
+            </ContainerQuestion>
+
+            <ContainerQuestionInput>
+
+                <InputQuestion 
+                    placeholder="Faça sua pergunta..."
+                    editable
+                    multiline
+                    numberOfLines={4}
+                    maxLength={40}
+                    textAlignVertical="top"
+                    onChangeText={setQuestion}
+                    value={question}/>
+
+                <ButtonSend onPress={() => handleSendMessage()}>
+                    
+                    <ButtonSendtText>Enviar</ButtonSendtText>
+
+                </ButtonSend>
+            </ContainerQuestionInput>
+        </Viewport>
     )
 
 }
