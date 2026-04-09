@@ -24,13 +24,17 @@ export function Login(){
     })
 
     const onSubmit: SubmitHandler<Inputs> = async ({email, password}) => {
-        
-        const response = await speakup_api.login(email, password)
+        try{
 
-        if(response.status_code == 200){
-            navigation.navigate('register')
-        }else{
-            alert("Credenciais inválidas")
+            const response = await speakup_api.login(email, password)
+            
+            if(response.status_code == 200){
+                navigation.navigate('home', {role: response.attributes.role })
+            }else{
+                alert("Credenciais inválidas")
+            }
+        }catch(error){
+            console.log(error)
         }
     }
 

@@ -5,6 +5,7 @@ export function InputTxt(data: TextInputProps){
 
     return (
         <TextField
+            placeholderTextColor="rgba(0, 0, 0, 0.3)"
              {...data}
         />
     )
