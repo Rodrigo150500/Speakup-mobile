@@ -1,10 +1,10 @@
 import { RouteProp } from "@react-navigation/native"
 
 export type RootStackParamList = {
-    home: {role: "TEACHER" | "STUDENT"},
+    home: {role: "TEACHER" | "STUDENT", name: string, grade?: string, section?: string, number?: number},
     login: undefined,
     register: undefined
-    chat: {role: "TEACHER" | "STUDENT", room_code: string}
+    chat: {role: "TEACHER" | "STUDENT", roomCode: string, name: string}
 }
 
 
