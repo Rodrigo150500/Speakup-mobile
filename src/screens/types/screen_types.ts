@@ -4,7 +4,7 @@ export type RootStackParamList = {
     home: {role: "TEACHER" | "STUDENT", name: string, grade?: string, section?: string, number?: number},
     login: undefined,
     register: undefined
-    chat: {role: "TEACHER" | "STUDENT", roomCode: string, name: string}
+    chat: {role: "TEACHER" | "STUDENT", roomCode: string, name?:string, nameRoom?:string}
 }
 
 

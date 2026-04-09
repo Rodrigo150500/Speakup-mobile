@@ -16,8 +16,8 @@ export function AppRoutes(){
             <Stack.Navigator initialRouteName="login" screenOptions={{headerShown: false}} >
                 <Stack.Screen name="login" component={Login} />
                 <Stack.Screen name="register" component={Register}/>
-                <Stack.Screen name="home" component={Home}/>
-                <Stack.Screen name="chat" component={Chat}/>
+                <Stack.Screen name="home" component={Home} />
+                <Stack.Screen name="chat" component={Chat} />
             </Stack.Navigator>
 
         </NavigationContainer>

@@ -18,7 +18,7 @@ export function Home({route}: Props){
                 grade != undefined  &&
                 number != undefined &&
                 section != undefined ? 
-                    <Stundet name={name} grade={grade} number={number} section={section} /> : <Teacher/> 
+                    <Stundet name={name} grade={grade} number={number} section={section} /> : <Teacher name={name}/> 
             }
         </Viewport>
     )

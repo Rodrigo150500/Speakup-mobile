@@ -11,14 +11,15 @@ type Props = {
 
 export function Chat({route}: Props){
 
-    const {role, roomCode, name} = route.params
+    const {role, roomCode, name, nameRoom} = route.params
 
     return (
         <Viewport>
 
-
             {
-                role == "STUDENT" ? <ChatStudant roomCode={roomCode} name={name} /> : <ChatTeacher/>
+                role == "TEACHER" &&
+                nameRoom != undefined
+                ? <ChatTeacher roomName={nameRoom}/> : <ChatStudant roomCode={roomCode} name={name} />
             }
 
         </Viewport>
