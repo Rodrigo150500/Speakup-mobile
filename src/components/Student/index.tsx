@@ -1,34 +1,41 @@
-import { Text, View, Image, Button } from "react-native"
+import { ContainerStudent, ContainerUser, Menu, FavoriteSubject, MenuStatus, Presence, Status, TopStudents, BtnEntry, ContainerRoom, InputCodeRoom, TitleRoom, BtnText, UserPhoto, UserInfo, Username, StudentData, MenuItemButton, MenuItemText } from "./styles"
 
-import { ContainerStudent, ContainerUser, Menu, FavoriteSubject, MenuStatus, Presence, Status, TopStudents, BtnEntry, ContainerRoom, InputCodeRoom, TitleRoom, BtnText } from "./styles"
 import { useState } from "react"
+
 import { speakup_api } from "../../services/speakup_api"
+
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../screens/types/screen_types";
 import { useNavigation } from "@react-navigation/native";
-import { io } from "socket.io-client";
 
-export function Stundet(){
+import {socket} from '../../main/socket/socket'
+
+type StudentProps = {
+    name: string,
+    grade: string,
+    section: string,
+    number: number,
+    role?: "STUDENT"
+}
+
+export function Stundet({name, grade, number, section, role="STUDENT"
+}: StudentProps){
 
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
     
-
-    const name = "John Doe"
-    const user_data = "4° ano A - n° 20"
-
     const [code, setCode] = useState("")
-    const room_code = "1505"
+    
     const handleEntryRoom = async () => {
         try{
-
-            console.log("entrando")
 
             const response = await speakup_api.join_room(code)
 
             if(response.status_code == 200){
-                const socket = io()
-                alert("acesso liberado")
-                socket.emit("join_room", {room_code})
+
+                socket.emit("join_room", {roomCode: code})
+
+                alert("Entrando na sala")
+                navigation.navigate("chat", {role, roomCode: code, name})
 
             }else{
                 alert("Verifique novamente o código da sala")
@@ -36,23 +43,33 @@ export function Stundet(){
         }catch(error){
             console.log(error)
         }
-
     }
 
 
     return (
         <ContainerStudent>
             <ContainerUser>
-                    <Image source={require("../../../assets/user.png")} style={{height: 150, width:150}} />
-                    <View>
-                        <Text>{name}</Text>
-                        <Text>{user_data}</Text>
-                    </View>
+                <UserPhoto
+                    source={require("../../../assets/user.png")}
+                />            
+                    <UserInfo>
+                        <Username>{name}</Username>
+                        <StudentData>{grade} {section} - n°{number.toString()}</StudentData>    
+                    </UserInfo>      
+                    
 
                     <Menu>
-                        <Button title="Atividades"/>
-                        <Button title="Presença"/>
-                        <Button title="Pontuação"/>
+                        <MenuItemButton>
+                            <MenuItemText>Atividades</MenuItemText>
+                        </MenuItemButton>
+
+                        <MenuItemButton>
+                            <MenuItemText>Presença</MenuItemText>
+                        </MenuItemButton>
+
+                        <MenuItemButton>
+                            <MenuItemText>Pontuação</MenuItemText>
+                        </MenuItemButton>
                     </Menu>
 
                     <MenuStatus>
@@ -73,14 +90,14 @@ export function Stundet(){
 
             <ContainerRoom>
 
-                        <TitleRoom>Código da Sala</TitleRoom>
-                        <InputCodeRoom
-                            placeholder="ex: 123"
-                            onChangeText={setCode}
-                            value={code}/>
-                        <BtnEntry onPress={() => handleEntryRoom()}>
-                            <BtnText>Entrar</BtnText>
-                        </BtnEntry>
+                <TitleRoom>Código da Sala</TitleRoom>
+                <InputCodeRoom
+                    placeholder="ex: 123"
+                    onChangeText={setCode}
+                    value={code}/>
+                <BtnEntry onPress={() => handleEntryRoom()}>
+                    <BtnText>Entrar</BtnText>
+                </BtnEntry>
                         
             </ContainerRoom>
         </ContainerStudent>
