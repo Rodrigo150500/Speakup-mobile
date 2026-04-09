@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { FlatList } from "react-native";
 
-import { Author, ButtonSend, ButtonSendtText, CardQuestions, ContainerQuestion, ContainerQuestionInput, InputQuestion, MessageDate, Question, Viewport } from "./styles";
+import { Author, ButtonSend, ButtonSendtText, CardQuestion, ContainerQuestion, ContainerQuestionInput, InputQuestion, MessageDate, Question, Viewport } from "./styles";
 
 import { UserInfo } from "../Student/styles";
 
@@ -13,7 +13,7 @@ import {socket} from "../../main/socket/socket"
 
 type ChatStudentProps = {
     roomCode: string,
-    name: string
+    name?: string
 }
 
 type MessageProps = {
@@ -40,7 +40,9 @@ export function ChatStudant({roomCode, name}: ChatStudentProps){
        
         socket.emit("send_message", {
                 roomCode,
-                message: question
+                message: question,
+                name,
+                date
             })
 
         setQuestion("")
@@ -68,13 +70,13 @@ export function ChatStudant({roomCode, name}: ChatStudentProps){
                     data={messages}                
                     renderItem={({item}) => (
 
-                        <CardQuestions>
+                        <CardQuestion>
                             <Question>{item.question}</Question>
                             <UserInfo>
                                 <Author>{name}</Author>
                                 <MessageDate>{item.date}</MessageDate>
                             </UserInfo>
-                        </CardQuestions>
+                        </CardQuestion>
                     )}
                     style={{width: "100%", display: "flex"}}
                     />

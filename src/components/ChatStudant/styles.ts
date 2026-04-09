@@ -21,20 +21,7 @@ export const ContainerQuestion = styled.View`
 `
 
 
-export const CardQuestion = styled.TextInput`
-
-    padding: 10px;
-    font-size: 18px;
-    color: #3F3F3F;
-    background-color: #FFE588;
-    border-radius: 10px;
-    margin: 5px;
-    width: 100%;
-    
-
-`
-
-export const CardQuestions = styled.View`
+export const CardQuestion = styled.View`
 
     display: flex;
     flex-direction: column;
@@ -43,6 +30,7 @@ export const CardQuestions = styled.View`
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 10px;
+    
 
 `
 
