@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ChatRouteProp } from "../types/screen_types";
 import { ChatStudant } from "../../components/ChatStudant";
 import { ChatTeacher } from "../../components/ChatTeacher";
+import { Viewport } from "./styles";
 
 type Props = {
     route: ChatRouteProp
@@ -10,15 +11,16 @@ type Props = {
 
 export function Chat({route}: Props){
 
-    const {role, room_code} = route.params
+    const {role, roomCode, name} = route.params
 
     return (
-        <SafeAreaView>
+        <Viewport>
+
 
             {
-                role == "STUDENT" ? <ChatStudant room_code={room_code} /> : <ChatTeacher/>
+                role == "STUDENT" ? <ChatStudant roomCode={roomCode} name={name} /> : <ChatTeacher/>
             }
 
-        </SafeAreaView>
+        </Viewport>
     )
 }
