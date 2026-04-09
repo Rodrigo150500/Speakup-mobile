@@ -4,7 +4,7 @@ import { Author, CardQuestion, MessageDate, Question, Viewport, UserInfo, Title,
 
 import { socket } from "../../main/socket/socket";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type ChatTeacherProps = {
     roomName: string
@@ -18,19 +18,19 @@ type MessageProps = {
 
 export function ChatTeacher({roomName}: ChatTeacherProps){
 
-    const messages:MessageProps[] = []
+    const [messages, setMessages] = useState<MessageProps[]>([])
 
-    useEffect( ()=>{
+    useEffect(() => {
 
-        socket.on("receive_message", ({date, message, name}:MessageProps) => {
-            messages.push({
-                message, name, date
-            })
+        socket.on("receive_message", ({ date, message, name }: MessageProps) => {
+            setMessages(prev => [...prev, { message, name, date }])
         })
-        
-
-    },[])
-    
+       
+            
+        return () => {
+            socket.off("receive_message")
+        }
+    }, [])
 
     return(
         <Viewport>

@@ -30,9 +30,8 @@ export function Teacher({name}: TeacherProps){
             const response = await speakup_api.create_room({name: nameRoom, room_code: roomCode})
 
             if(response.status_code == 201){
-                alert("acesso liberado")
-                socket.emit(`professor_room_${roomCode}`)
-                navigation.navigate("chat", {role: "TEACHER", roomCode: roomCode, roomName: nameRoom})
+                socket.emit("join_as_professor", {roomCode})
+                navigation.navigate("chat", {role: "TEACHER", roomCode: roomCode, nameRoom: nameRoom})
             }else{
                 alert("Verifique novamente o código da sala")
             }
