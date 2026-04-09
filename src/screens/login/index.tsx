@@ -28,8 +28,13 @@ export function Login(){
 
             const response = await speakup_api.login(email, password)
             
+            const name = response.attributes.name
+            const grade = response.attributes.student?.grade
+            const number = response.attributes.student?.number
+            const section = response.attributes.student?.section
+
             if(response.status_code == 200){
-                navigation.navigate('home', {role: response.attributes.role })
+                navigation.navigate('home', {role: response.attributes.role, name: name, grade: grade,number: number, section: section})
             }else{
                 alert("Credenciais inválidas")
             }
