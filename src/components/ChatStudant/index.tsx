@@ -51,7 +51,7 @@ export function ChatStudant({roomCode, name}: ChatStudentProps){
     useEffect(() => {
 
         socket.on("connect", () => {
-
+            console.log("conectado na sala", roomCode)
             socket.emit("join_room", { roomCode })
         })
 
