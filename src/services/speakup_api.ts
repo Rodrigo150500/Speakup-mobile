@@ -68,7 +68,6 @@ class SpeakupAPI implements ISpeakupAPI{
     }
 
     async join_room(room_code: string):Promise<RoomOutput>{
-        console.log(room_code)
         const response = await fetch(`${this.api_url}/room/join`,{
             method: "POST",
             headers:{
