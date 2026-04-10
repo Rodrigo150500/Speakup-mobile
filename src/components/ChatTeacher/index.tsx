@@ -21,7 +21,7 @@ export function ChatTeacher({roomName}: ChatTeacherProps){
     const [messages, setMessages] = useState<MessageProps[]>([])
 
     useEffect(() => {
-
+        console.log(messages)
         socket.on("receive_message", ({ date, message, name }: MessageProps) => {
             setMessages(prev => [...prev, { message, name, date }])
         })
@@ -30,7 +30,7 @@ export function ChatTeacher({roomName}: ChatTeacherProps){
         return () => {
             socket.off("receive_message")
         }
-    }, [])
+    }, [messages])
 
     return(
         <Viewport>
